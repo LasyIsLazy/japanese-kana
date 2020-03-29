@@ -5,16 +5,42 @@
             <div class="clickable btn" @click="handleAnswer" data-title="看答案"></div>
         </div>
         <div class="card">
-            <div class="title">平假名：</div>
-            <div class="text">{{hiragana}}</div>
+            <div class="title">
+                <input type="checkbox" name="hiragana" id="hiragana" v-model="options.hiragana" />
+                平假名：
+            </div>
+            <div
+                class="text"
+                :class="options.hiragana||'answer'"
+                v-show="isHiraVisible"
+            >{{hiragana}}</div>
         </div>
         <div class="card">
-            片假名：
-            <div class="text">{{katakana}}</div>
+            <div class="title">
+                <input type="checkbox" name="hiragana" id="katakana" v-model="options.katakana" />
+                片假名：
+            </div>
+            <div
+                class="text"
+                :class="options.katakana||'answer'"
+                v-show="isKanaVisible"
+            >{{katakana}}</div>
         </div>
-        <div class="answer card">
-            <div class="title">答案：</div>
-            <div class="text" v-show="isKanaVisible">{{kana}}</div>
+        <div class="card">
+            <div class="title">
+                <input
+                    type="checkbox"
+                    name="hiragana"
+                    id="katakana"
+                    v-model="options.pronunciation"
+                />
+                罗马音拼写
+            </div>
+            <div
+                class="text"
+                :class="options.pronunciation||'answer'"
+                v-show="isPronounciationVisible"
+            >{{kana}}</div>
         </div>
     </div>
 </template>
@@ -43,19 +69,34 @@ function getRandomKana(): string {
 })
 export default class App extends Vue {
     private kana = ''
-    private isKanaVisible = false
+    private isAnswerVisible = false
+    private options = {
+        hiragana: true,
+        katakana: true,
+        pronunciation: false,
+    }
     private get hiragana() {
         return Hiragana[this.kana]
     }
     private get katakana() {
         return Katakana[this.kana]
     }
+    private get isHiraVisible() {
+        return this.isAnswerVisible || this.options.hiragana
+    }
+    private get isKanaVisible() {
+        return this.isAnswerVisible || this.options.katakana
+    }
+    private get isPronounciationVisible() {
+        return this.isAnswerVisible || this.options.pronunciation
+    }
+
     private handleNext() {
-        this.isKanaVisible = false
+        this.isAnswerVisible = false
         this.kana = getRandomKana()
     }
     private handleAnswer() {
-        this.isKanaVisible = true
+        this.isAnswerVisible = true
     }
 }
 </script>
@@ -147,7 +188,7 @@ export default class App extends Vue {
     -webkit-text-fill-color: transparent;
     -webkit-text-stroke: 2px #111;
 }
-.answer > .text {
+.answer.text {
     background-color: green;
 }
 </style>
