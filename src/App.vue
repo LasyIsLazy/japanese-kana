@@ -7,7 +7,7 @@
         <div class="card">
             <div class="title">
                 <input type="checkbox" name="hiragana" id="hiragana" v-model="options.hiragana" />
-                平假名：
+                <label for="hiragana">平假名：</label>
             </div>
             <div
                 class="text"
@@ -18,7 +18,7 @@
         <div class="card">
             <div class="title">
                 <input type="checkbox" name="hiragana" id="katakana" v-model="options.katakana" />
-                片假名：
+                <label for="katakana">片假名：</label>
             </div>
             <div
                 class="text"
@@ -34,7 +34,7 @@
                     id="katakana"
                     v-model="options.pronunciation"
                 />
-                罗马音拼写
+                <label for="katakana">罗马音拼写</label>
             </div>
             <div
                 class="text"
@@ -110,6 +110,9 @@ export default class App extends Vue {
 </script>
 
 <style>
+label {
+    user-select: none;
+}
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
