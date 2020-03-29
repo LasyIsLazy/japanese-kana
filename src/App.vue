@@ -68,7 +68,7 @@ function getRandomKana(): string {
     },
 })
 export default class App extends Vue {
-    private kana = ''
+    private kana = 'a'
     private isAnswerVisible = false
     private options = {
         hiragana: true,
@@ -97,6 +97,14 @@ export default class App extends Vue {
     }
     private handleAnswer() {
         this.isAnswerVisible = true
+    }
+    private mounted() {
+        window.addEventListener('keyup', e => {
+            // 回车、空格
+            if (e.keyCode === 13 || e.keyCode === 32) {
+                this.isAnswerVisible ? this.handleNext() : this.handleAnswer()
+            }
+        })
     }
 }
 </script>
